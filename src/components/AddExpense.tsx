@@ -3,10 +3,11 @@ import { PlusCircle, Calendar, IndianRupee, User, MapPin, Tag } from 'lucide-rea
 
 interface AddExpenseProps {
   people: string[];
+  groupId: string;
   onAdd: (expense: { person: string; where: string; what: string; amount: number; date: string }) => void;
 }
 
-export const AddExpense: React.FC<AddExpenseProps> = ({ people, onAdd }) => {
+export const AddExpense: React.FC<AddExpenseProps> = ({ people, groupId, onAdd }) => {
   const today = new Date().toISOString().split('T')[0];
   
   const [person, setPerson] = useState('');
@@ -22,7 +23,7 @@ export const AddExpense: React.FC<AddExpenseProps> = ({ people, onAdd }) => {
         person,
         where,
         what,
-        amount: Math.round(parseFloat(amount)), // Ensure integer
+        amount: Math.round(parseFloat(amount)),
         date
       });
       setWhere('');

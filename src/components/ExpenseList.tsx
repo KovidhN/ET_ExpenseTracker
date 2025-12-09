@@ -1,15 +1,16 @@
 import React from 'react';
 import { Expense } from '../types';
-import { Receipt, Calendar, MapPin, Pencil, Trash2 } from 'lucide-react';
+import { Receipt, Calendar, MapPin, Pencil, Trash2, Lock } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 interface ExpenseListProps {
   expenses: Expense[];
+  isAdmin: boolean;
   onEdit: (expense: Expense) => void;
   onDelete: (id: string) => void;
 }
 
-export const ExpenseList: React.FC<ExpenseListProps> = ({ expenses, onEdit, onDelete }) => {
+export const ExpenseList: React.FC<ExpenseListProps> = ({ expenses, isAdmin, onEdit, onDelete }) => {
   if (expenses.length === 0) {
     return (
       <div className="bg-white/90 backdrop-blur-md rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-white/20 p-12 text-center">
@@ -90,13 +91,19 @@ export const ExpenseList: React.FC<ExpenseListProps> = ({ expenses, onEdit, onDe
                     >
                       <Pencil className="w-4 h-4" />
                     </button>
-                    <button 
-                      onClick={() => onDelete(expense.id)}
-                      className="p-2 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition-all"
-                      title="Delete"
-                    >
-                      <Trash2 className="w-4 h-4" />
-                    </button>
+                    {isAdmin ? (
+                      <button 
+                        onClick={() => onDelete(expense.id)}
+                        className="p-2 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition-all"
+                        title="Delete (Admin Only)"
+                      >
+                        <Trash2 className="w-4 h-4" />
+                      </button>
+                    ) : (
+                      <div className="p-2 text-slate-200 cursor-not-allowed" title="Admin only">
+                        <Lock className="w-4 h-4" />
+                      </div>
+                    )}
                   </div>
                 </td>
               </motion.tr>
@@ -141,12 +148,14 @@ export const ExpenseList: React.FC<ExpenseListProps> = ({ expenses, onEdit, onDe
                   >
                     <Pencil className="w-3.5 h-3.5" />
                   </button>
-                  <button 
-                    onClick={() => onDelete(expense.id)}
-                    className="p-1.5 text-slate-400 hover:text-rose-600 bg-slate-50 rounded-md"
-                  >
-                    <Trash2 className="w-3.5 h-3.5" />
-                  </button>
+                  {isAdmin && (
+                    <button 
+                      onClick={() => onDelete(expense.id)}
+                      className="p-1.5 text-slate-400 hover:text-rose-600 bg-slate-50 rounded-md"
+                    >
+                      <Trash2 className="w-3.5 h-3.5" />
+                    </button>
+                  )}
               </div>
             </div>
           </motion.div>

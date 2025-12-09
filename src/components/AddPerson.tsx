@@ -2,10 +2,11 @@ import React, { useState } from 'react';
 import { UserPlus, User } from 'lucide-react';
 
 interface AddPersonProps {
+  groupId: string;
   onAdd: (name: string) => void;
 }
 
-export const AddPerson: React.FC<AddPersonProps> = ({ onAdd }) => {
+export const AddPerson: React.FC<AddPersonProps> = ({ groupId, onAdd }) => {
   const [name, setName] = useState('');
 
   const handleSubmit = (e: React.FormEvent) => {
